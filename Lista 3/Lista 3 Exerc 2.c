@@ -9,97 +9,62 @@ seguintes códigos:
  0, caso contrário.*/
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 
-int ValorAleatorio(int limite){
-    int a;
-    a = rand()%limite+1;
-    return a;
-}
-
-void PreencherAleatorio(int vetor[],int limite,int tamanho){
+void Preenchendo(int tam,int C[]){
     int i;
-    for(i=0;i<tamanho;i++){
-        vetor[i] = rand()%limite;
+    for(i=0;i<tam;i++){
+        printf("Digite um valor\n");
+        scanf("%d", &C[i]);
     }
 }
 
-void ExibirMatriz(int vetor[],int tamanho){
-    printf("\n");
-    int i;
-    for(i=0;i<tamanho;i++){
-        printf(" %d ",vetor[i]);
-    }
-}
-
-int Contida(int vet1[], int vet2[], int t1, int t2){
-    int i, j, achou;
-    int AemB = 1;
-    int BemA = 1;
-
-    // Verifica se A está contido em B
-    for(i = 0; i < t1; i++){
-        achou = 0;
-        for(j = 0; j < t2; j++){
-            if(vet1[i] == vet2[j]){
-                achou = 1;
-                break;
+int Contido(int A[], int B[],int tamA,int tamB){
+    int i,j,cont=0;
+    if(tamA > tamB){
+        for(i=0;i<tamA;i++){
+            for(j=0;j<tamB;j++){
+                if(B[j] == A[i]){
+                    cont++;
+                    break;
+                }
             }
         }
-        if(achou == 0){
-            AemB = 0;
-            break;
+        if(cont == tamB){
+            return 2;
         }
-    }
-
-    // Verifica se B está contido em A
-    for(i = 0; i < t2; i++){
-        achou = 0;
-        for(j = 0; j < t1; j++){
-            if(vet2[i] == vet1[j]){
-                achou = 1;
-                break;
+    } else if(tamA < tamB){
+        for(i=0;i<tamB;i++){
+            for(j=0;j<tamA;j++){
+                if(B[i] == A[j]){
+                    cont++;
+                    break;
+                }
             }
         }
-        if(achou == 0){
-            BemA = 0;
-            break;
+        if(cont == tamA){
+            return 1;
         }
     }
+        return 0;
+    
 
-    if(AemB) return 1;
-    if(BemA) return 2;
-    return 0;
 }
 
 int main(){
-    //int a=0;
-    srand(time(NULL));
-    //while(a<=100){
-    int x,y,n;
-    x = ValorAleatorio(15);
-    y = ValorAleatorio(15);
-    int vet1[x];
-    int vet2[y];
-    PreencherAleatorio(vet1,10,x);
-    PreencherAleatorio(vet2,10,y);
-    ExibirMatriz(vet1,x);
-    ExibirMatriz(vet2,y);
-    n = Contida(vet1,vet2,x,y);
-    switch (n)
-    {
-    case 1:
-        printf("\nVetor 1 está contido em Vetor 2");
-        break;
-    case 2:
-    printf("\nVetor 2 está contido em Vetor 1");
-    break;
+    int tamA,tamB;
+    printf("Digite o tamanho de A e B\n");
+    scanf("%d %d", &tamA,&tamB);
 
-    case 0:
-    printf("\nNenhum dos vetores estão contidos no outro");
-        break;
-    }
-    //a++;}
-    return 0;
+    int A[tamA];
+    int B[tamB];
+
+    Preenchendo(tamA,A);
+    Preenchendo(tamB,B);
+    int a;
+
+    a= Contido(A,B,tamA,tamB);
+
+        printf("%d\n",a);
+
+        return 0;
 }
